@@ -21,10 +21,12 @@ module CypressDev
     end
 
     def self.create(*args)
+      args = symbolize_args(*args)
       instance.create(*args)
     end
 
     def self.create_list(*args)
+      args = symbolize_args(*args)
       instance.create_list(*args)
     end
 
@@ -86,6 +88,10 @@ module CypressDev
 
     def should_reload?(current_latest_mtime)
       @always_reload || @latest_mtime.nil? || @latest_mtime < current_latest_mtime
+    end
+
+    def self.symbolize_args(*args)
+      args.map{ |arg| arg.is_a?(String) ? arg.to_sym : arg }
     end
   end
 end
